@@ -39,32 +39,32 @@ pipeline {
                 """
             }
         }
-        // stage('Nexus Artifact Upload'){
-        //     steps{
-        //         script{
-        //             nexusArtifactUploader(
-        //                 nexusVersion: 'nexus3',
-        //                 protocol: 'http',
-        //                 nexusUrl: "${nexusUrl}",
-        //                 groupId: 'com.expense',
-        //                 version: "${appVersion}",
-        //                 repository: "backend",
-        //                 credentialsId: 'nexus-auth',
-        //                 artifacts: [
-        //                     [artifactId: "backend" ,
-        //                     classifier: '',
-        //                     file: "backend-" + "${appVersion}" + '.zip',
-        //                     type: 'zip']
-        //                 ]
-        //             )
-        //         }
-        //     }
-        // }
+        stage('Nexus Artifact Upload'){
+            steps{
+                script{
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${nexusUrl}",
+                        groupId: 'com.expense',
+                        version: "${appVersion}",
+                        repository: "backend",
+                        credentialsId: 'nexus-auth',
+                        artifacts: [
+                            [artifactId: "backend" ,
+                            classifier: '',
+                            file: "backend-" + "${appVersion}" + '.zip',
+                            type: 'zip']
+                        ]
+                    )
+                }
+            }
+        }
     }
     post { 
         always { 
             echo 'I will always say Hello again!'
-            // deleteDir()
+            deleteDir()
         }
         success { 
             echo 'I will run when pipeline is success'
