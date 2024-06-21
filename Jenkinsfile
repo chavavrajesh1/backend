@@ -10,7 +10,7 @@ pipeline {
     }
     environment{
         def appVersion = ''
-        // nexusUrl = 'nexus.chavavenkat.online:8081'
+        nexusUrl = 'nexus.chavavenkat.online:8081'
     }
     stages {
         stage('read the version'){
