@@ -11,6 +11,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh """
+                cd backend
                 npm install
                 """
             }
