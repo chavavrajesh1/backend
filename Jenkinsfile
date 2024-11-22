@@ -7,67 +7,14 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
-    environment{
-        def appVersion = '' //variable declaration
-    }
     stages {
-        stage('read the version'){
+        stage('test'){
             steps{
-                script{
-                def packageJson = readJSON file: 'package.json'
-                appVersion = packageJson.version
-                echo "application version: $appVersion"
-            }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
                 sh """
-                npm install
-                ls -ltr
-                echo "application version: $appVersion"
+                 echo "this is testing"   
                 """
             }
         }
-        stage('Build'){
-            steps{
-                sh """
-                zip -q -r backend-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
-                ls -ltr
-                """
-            }
-        }
-        stage('Nexus Artifact Upload'){
-            steps{
-                script{
-                    nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${nexusUrl}",
-                        groupId: 'com.expense',
-                        version: "${appVersion}",
-                        repository: "backend",
-                        credentialsId: 'nexus-auth',
-                        artifacts: [
-                            [artifactId: "backend" ,
-                            classifier: '',
-                            file: "backend-" + "${appVersion}" + '.zip',
-                            type: 'zip']
-                        ]
-                    )
-                }
-            }
-        }
-        stage('Deploy'){
-            steps{
-                script{
-                    def params = [
-                        string(name: 'appVersion', value: "${appVersion}")
-                    ]
-                    build job: 'backend-deploy', parameters: params, wait: false                }
-            }
-        }
-    }
     post{
         always{
             echo 'I will always say Hello again!'
