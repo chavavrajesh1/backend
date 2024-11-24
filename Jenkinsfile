@@ -38,7 +38,7 @@ pipeline {
                 """
             }
         }
-        stage('Nexus Artifact Uploader'){
+        stage('Nexus Artifact Upload'){
             steps{
                 script{
                     nexusArtifactUploader(
@@ -50,15 +50,14 @@ pipeline {
                         repository: "backend",
                         credentialsId: 'nexus-auth',
                         artifacts: [
-                            [artifactId: projectName,
+                            [artifactId: "backend" ,
                             classifier: '',
                             file: "backend-" + "${appVersion}" + '.zip',
                             type: 'zip']
                         ]
-                        )
-                    }
+                    )
                 }
-        }
+            }
     }
     post{
         always{
