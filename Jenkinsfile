@@ -55,7 +55,7 @@ pipeline {
                             file: "backend-" + "${appVersion}" + '.zip',
                             type: 'zip']
                         ]
-                )
+                        )
                     }
                 }
         }
